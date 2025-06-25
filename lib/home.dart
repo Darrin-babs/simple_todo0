@@ -7,7 +7,6 @@ class DetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final todo = ModalRoute.of(context)!.settings.arguments as Todo;
-
     return Scaffold(
       appBar: AppBar(title: Text(todo.title)),
       body: Padding(
