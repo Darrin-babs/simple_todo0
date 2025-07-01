@@ -56,7 +56,7 @@ class _AddTodoState extends State<AddTodo> {
                     ),
                   );
                 } else {
-                  Todo todo = Todo(title, description, false);
+                  Todo todo = Todo(title, description: description, done: false);
                   Navigator.pop(context, todo);
                 }
               },
