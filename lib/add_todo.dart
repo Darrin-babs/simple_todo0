@@ -11,7 +11,8 @@ class AddTodo extends StatefulWidget {
 class _AddTodoState extends State<AddTodo> {
   String title = '';
   String description = '';
-@override
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Add Todo")),
@@ -50,13 +51,11 @@ class _AddTodoState extends State<AddTodo> {
                 if (title.isEmpty || description.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text(
-                        'Please enter a title and description for your TODO',
-                      ),
+                      content: Text('Please enter a title and description for your TODO'),
                     ),
                   );
                 } else {
-                  Todo todo = Todo(title, description: description, done: false);
+                  Todo todo = Todo(title: title, description: description, done: false);
                   Navigator.pop(context, todo);
                 }
               },
