@@ -6,7 +6,7 @@ class Todo {
   const Todo({
     required this.title,
     required this.description,
-    required this.done,
+    required this.done, required String id,
   });
 
   Todo.fromJson(Map<String, dynamic> json)

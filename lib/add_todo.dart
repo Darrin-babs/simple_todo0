@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_todo/todo.dart';
+import 'package:uuid/uuid.dart';
 
 class AddTodo extends StatefulWidget {
   const AddTodo({super.key});
@@ -9,8 +10,13 @@ class AddTodo extends StatefulWidget {
 }
 
 class _AddTodoState extends State<AddTodo> {
-  String title = '';
-  String description = '';
+
+  String title = "";
+  String description = "";
+  var uuid = Uuid();
+
+  // ignore: recursive_getters
+  get descEdit => descEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +27,9 @@ class _AddTodoState extends State<AddTodo> {
         child: Column(
           children: [
             TextField(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Add title',
+                hintText: "Add Title",
               ),
               onChanged: (value) {
                 title = value;
@@ -32,12 +38,13 @@ class _AddTodoState extends State<AddTodo> {
                 FocusManager.instance.primaryFocus?.unfocus();
               },
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             TextField(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Add description',
+                hintText: "Add Description",
               ),
+              controller: descEdit,
               onChanged: (value) {
                 description = value;
               },
@@ -45,25 +52,30 @@ class _AddTodoState extends State<AddTodo> {
                 FocusManager.instance.primaryFocus?.unfocus();
               },
             ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                if (title.isEmpty || description.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Please enter a title and description for your TODO'),
+            SizedBox(height: 10),
+            ElevatedButton(onPressed:() {
+              if(title.isEmpty || description.isEmpty) {
+                ScaffoldMessenger.of(context)
+                ..removeCurrentMaterialBanner()
+                ..showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      "Please enter a title and description for your TODO",
                     ),
-                  );
-                } else {
-                  Todo todo = Todo(title: title, description: description, done: false);
-                  Navigator.pop(context, todo);
-                }
-              },
-              child: const Text("Add TODO"),
-            ),
-          ],
-        ),
-      ),
+                  ),
+                );
+              } else {
+                Todo todo = createTodo(title, description, false);
+                Navigator.pop(context, todo);
+              }
+            }, child: Text("Add TODO"),
+          ),
+        ],),
+      )
     );
+  }
+  Todo createTodo(String title, String description, bool done) {
+    String id = uuid.v1();
+    return Todo(title: title, description: description, done: false, id: id);
   }
 }
